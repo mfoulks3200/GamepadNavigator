@@ -31,29 +31,37 @@ export class Bounds {
         return bound;
     }
 
-    private static getElementPosition(element: HTMLElement){
+    public setPos(pos: Position) {
+        this.pos = pos
+    }
+
+    public setSize(size: Dimension) {
+        this.size = size
+    }
+
+    private static getElementPosition(element: HTMLElement) {
         return { x: element.getBoundingClientRect().x, y: element.getBoundingClientRect().y }
     }
 
-    private static getElementSize(element: HTMLElement){
+    private static getElementSize(element: HTMLElement) {
         return { width: element.offsetWidth, height: element.offsetHeight }
     }
 
-    private updateElementBounds(){
-        if(this.linkedElement){
+    private updateElementBounds() {
+        if (this.linkedElement) {
             this.pos = Bounds.getElementPosition(this.linkedElement)
             this.size = Bounds.getElementSize(this.linkedElement)
         }
     }
 
-    public getAnchor(anchor?: Anchor | AnchorLocation): Position{
+    public getAnchor(anchor?: Anchor | AnchorLocation): Position {
         this.updateElementBounds();
-        if(!anchor){
+        if (!anchor) {
             return this.pos;
-        }else if(typeof anchor === 'string'){
+        } else if (typeof anchor === 'string') {
             let anchors: Anchor = Bounds.anchors[anchor]
             return this.getAnchor(anchors)
-        }else{
+        } else {
             return {
                 x: this.pos.x + (this.size.width * anchor.x),
                 y: this.pos.y + (this.size.height * anchor.y)
@@ -61,30 +69,30 @@ export class Bounds {
         }
     }
 
-    public getSize(): Dimension{
+    public getSize(): Dimension {
         this.updateElementBounds();
         return this.size
     }
 
-    public getSquareSize(): number{
+    public getSquareSize(): number {
         return this.size.width * this.size.height
     }
 
-    public getAspectRatio(): number{
+    public getAspectRatio(): number {
         return Math.min(this.size.width, this.size.height) / Math.max(this.size.width, this.size.height)
     }
 
-    public getOnscreenBounds(){
+    public getOnscreenBounds() {
         return this.getOverlappingBounds(Bounds.screenBounds());
     }
 
-    public getOnscreenPercentage(): number{
+    public getOnscreenPercentage(): number {
         let onscreenBounds = this.getOnscreenBounds()
-        let onscreenSquareSize = onscreenBounds.getSquareSize()/this.getSquareSize();
+        let onscreenSquareSize = onscreenBounds.getSquareSize() / this.getSquareSize();
         return onscreenSquareSize
     }
 
-    public getOverlappingBounds(otherBounds: Bounds): Bounds{
+    public getOverlappingBounds(otherBounds: Bounds): Bounds {
         let x = Math.max(this.pos.x, otherBounds.pos.x)
         let y = Math.max(this.pos.y, otherBounds.pos.y)
         let width = Math.min(this.pos.x + this.size.width, otherBounds.pos.x + otherBounds.size.width) - x
@@ -92,7 +100,7 @@ export class Bounds {
         return new Bounds({ x, y }, { width, height })
     }
 
-    public static screenBounds(): Bounds{
+    public static screenBounds(): Bounds {
         return new Bounds({ x: 0, y: 0 }, { width: window.innerWidth, height: window.innerHeight })
     }
 }

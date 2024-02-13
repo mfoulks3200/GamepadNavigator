@@ -4,6 +4,7 @@ import { OverlayCanvas } from "./Content/Overlay/OverlayCanvas";
 import { ControllerOverlay } from "./Content/Overlay/Layers/ControllerOverlay";
 import { InteractableManager } from "./Content/Interactable/InteractableManager";
 import { TestOverlay } from "./Content/Overlay/Layers/TestOverlay";
+import { KeyboardOverlay } from "./Content/Overlay/Layers/KeyboardOverlay";
 import { UIMapOverlay, UIMapOverlayLink } from "./Content/Overlay/Layers/UIMapOverlay";
 import { Side } from "./Content/Common/Geometry";
 
@@ -13,9 +14,14 @@ Controller.startListeners()
 console.log("Starting debug canvas!")
 let debugCanvas = new OverlayCanvas()
 let testOverlay = new TestOverlay()
-let uiMapOverlay = new UIMapOverlay()
 debugCanvas.addLayer(testOverlay)
+
+let uiMapOverlay = new UIMapOverlay()
 debugCanvas.addLayer(uiMapOverlay)
+
+let keyboardOverlay = new KeyboardOverlay()
+debugCanvas.addLayer(keyboardOverlay)
+
 let links: UIMapOverlayLink[] = [];
 let sides = [Side.Top, Side.Left, Side.Right, Side.Bottom]
 setInterval(() => {
@@ -24,10 +30,10 @@ setInterval(() => {
     console.log("Updating interactables!", InteractableManager.interactables)
     testOverlay.interactables = InteractableManager.interactables
     let currentInteractableLength = 0;
-    if(currentInteractableLength !== InteractableManager.currentInteractables.length-1){
+    if (currentInteractableLength !== InteractableManager.currentInteractables.length - 1) {
         links = [];
-        for(let i of InteractableManager.currentInteractables){
-            if(i.links[Side.Top].interactable){
+        for (let i of InteractableManager.currentInteractables) {
+            if (i.links[Side.Top].interactable) {
                 links.push({
                     from: {
                         bounds: i.bounds,
@@ -43,7 +49,7 @@ setInterval(() => {
                     }
                 })
             }
-            if(i.links[Side.Bottom].interactable){
+            if (i.links[Side.Bottom].interactable) {
                 links.push({
                     from: {
                         bounds: i.bounds,
@@ -59,7 +65,7 @@ setInterval(() => {
                     }
                 })
             }
-            if(i.links[Side.Left].interactable){
+            if (i.links[Side.Left].interactable) {
                 links.push({
                     from: {
                         bounds: i.bounds,
@@ -76,7 +82,7 @@ setInterval(() => {
                     }
                 })
             }
-            if(i.links[Side.Right].interactable){
+            if (i.links[Side.Right].interactable) {
                 links.push({
                     from: {
                         bounds: i.bounds,
@@ -101,8 +107,8 @@ setInterval(() => {
 Controller.addListener(ControllerEvent.Connected, controller => {
     controller.joysticks[0].addListener(JoystickEvent.MoveDirection, (vector: JoystickVector) => {
         console.log("Joystick Moved!", vector)
-        if(vector.direction !== JoystickDirection.Neutral){
-            
+        if (vector.direction !== JoystickDirection.Neutral) {
+
         }
     });
     debugCanvas.addLayer(new ControllerOverlay(controller))

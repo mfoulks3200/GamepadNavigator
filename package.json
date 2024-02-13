@@ -1,0 +1,25 @@
+{
+  "name": "Web Controller Support",
+  "main": "src/Index.js",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "css-loader": "^6.10.0",
+    "eslint": "^8.56.0",
+    "prettier": "3.2.4",
+    "source-map-loader": "^5.0.0",
+    "terser-webpack-plugin": "^5.3.10",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "webextension-polyfill": "^0.10.0",
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack -w"
+  },
+  "dependencies": {
+    "copy-webpack-plugin": "^12.0.2"
+  }
+}
